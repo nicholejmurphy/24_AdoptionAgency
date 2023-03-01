@@ -27,6 +27,15 @@ Jack = Pet(name='Jack', species='Cat', age=13,
 Moon = Pet(name='Moon', species='Dog', age=3,
            notes='High energy and loves to play. Will win your heart if you let him!', available=False)
 
-db.session.add_all(buddy, squirrel, fish, iggy,
-                   James, Jess, Karl, pj, Jack, Moon)
+db.session.add(buddy)
+db.session.add(squirrel)
+db.session.add(fish)
+db.session.add(iggy)
+db.session.add(James)
+db.session.add(Jess)
+db.session.add(Karl)
+db.session.add(pj)
+db.session.add(Jack)
+db.session.add(Moon)
+
 db.session.commit()

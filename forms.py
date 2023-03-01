@@ -12,5 +12,5 @@ class PetForm(FlaskForm):
         message='Species of this pet is required')])
     photo_url = StringField("Photo of Pet", validators=[Optional()])
     age = IntegerField("Age", validators=[Optional()])
-    notes = IntegerField("Notes", validators=[Optional()])
+    notes = StringField("Notes", validators=[Optional()])
     available = BooleanField("Available for Adoption")

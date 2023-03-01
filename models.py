@@ -20,8 +20,8 @@ class Pet(db.Model):
     name = db.Column(db.Text, nullable=False)
     species = db.Column(db.Text, nullable=False)
     photo_url = db.Column(db.Text, nullable=True, default=DEFAULT_IMG)
-    age = db.Column(db.Integer, nullable=True, default="unknown")
-    notes = db.Column(db.Integer, nullable=True,
+    age = db.Column(db.Integer, nullable=True)
+    notes = db.Column(db.Text, nullable=True,
                       default="No notes for this pet.")
     available = db.Column(db.Boolean, nullable=False,
                           default="checked")

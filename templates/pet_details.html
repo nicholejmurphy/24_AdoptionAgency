@@ -8,16 +8,17 @@ block main %} {% if pet.available %}
   At this time, {{pet.name}} is not available for adoption.
 </div>
 {% endif %}
-
-<div class="card" style="width: 18rem">
-  <img src="{{pet.photo_url}}" class="card-img-top" alt="Image of pet" />
-  <div class="card-body">
-    <h5 class="card-title">{{pet.name}}</h5>
-    <p class="card-text">Species: {{pet.species}}</p>
-    <p class="card-text">Age: {{pet.age}}</p>
-    <p class="card-text">Notes: {{pet.age}}</p>
-    <a href="/pet/{{pet.id}}/edit" class="btn btn-info">Edit</a>
-    <a href="/pet/{{pet.id}}/delete" class="btn btn-danger">Delete</a>
+<div class="container d-flex justify-content-center flex-wrap">
+  <div class="card p-3" style="width: 15rem">
+    <img src="{{pet.photo_url}}" class="card-img-top" alt="Image of pet" />
+    <div class="card-body">
+      <h5 class="card-title">{{pet.name}}</h5>
+      <p class="card-text">Species: {{pet.species}}</p>
+      <p class="card-text">Age: {{pet.age}}</p>
+      <p class="card-text">Notes: {{pet.age}}</p>
+      <a href="/pet/{{pet.id}}/edit" class="btn btn-info">Edit</a>
+      <a href="/pet/{{pet.id}}/delete" class="btn btn-danger">Delete</a>
+    </div>
   </div>
 </div>
 {% endblock %}

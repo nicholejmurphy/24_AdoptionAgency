@@ -64,12 +64,10 @@ def add_new_pet():
 def edit_pet(pet_id):
     """Shows form to add new pet and handles form submission"""
 
-    form = PetForm()
+    pet = Pet.query.get_or_404(pet_id)
+    form = PetForm(obj=pet)
 
     if form.validate_on_submit():
-
-        pet = Pet.query.get_or_404(pet_id)
-
         pet.name = form.name.data
         pet.species = form.species.data
         pet.photo_url = form.photo_url.data
@@ -82,7 +80,7 @@ def edit_pet(pet_id):
 
         return redirect(f'/pet/{pet.id}')
     else:
-        return render_template('edit_pet.html', form=form)
+        return render_template('edit_pet.html', form=form, pet=pet)
 
 
 @app.route('/pet/<int:pet_id>/delete', methods=["POST"])
