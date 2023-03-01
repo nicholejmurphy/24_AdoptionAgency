@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Adoption Agency</title>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-dark bg-primary">
+      <a class="navbar-brand" href="/">
+        <img
+          src="'https://cdn-icons-png.flaticon.com/512/64/64431.png?w=740&t=st=1677678792~exp=1677679392~hmac=bf0a70d2000d3515bacb7cfdb4cabc475b5313a2a4ca8b40d200b49ac687de6d'"
+          width="30"
+          height="30"
+          class="d-inline-block align-top"
+          alt=""
+          loading="lazy"
+        />
+        Adoption Agency
+      </a>
+    </nav>
+
+    <div class="container text-center">
+      <h1 class="display-2">
+        {% block title %}Adoption Agency's Adoptable Pets{% endblock %}
+      </h1>
+      {% block main %}
+
+      <!-- Adoptable Pets -->
+
+      <p class="lead">Below is a list of our adoptable pets!</p>
+      <hr />
+      <a href="/pet/new" class="btn btn-lg btn-info">Add a New Pet Here</a>
+      {% for pet in pets %} {% if pet.available %}
+      <div class="card" style="width: 18rem">
+        <img src="{{pet.photo_url}}" class="card-img-top" alt="Image of pet" />
+        <div class="card-body">
+          <h5 class="card-title">{{pet.name}}</h5>
+          <p class="card-text">{{pet.species}}</p>
+          <a href="/pet/{{pet.id}}" class="btn btn-primary">ADOPT ME!</a>
+        </div>
+      </div>
+      {% endif %} {% endfor %}
+
+      <!-- Adopted Pets -->
+      <p class="lead">
+        Below is a list of pets that have found their new forever home!
+      </p>
+      <hr />
+
+      {% for pet in pets %} {% if pet.available not True %}
+      <div class="card" style="width: 18rem">
+        <img src="{{pet.photo_url}}" class="card-img-top" alt="Image of pet" />
+        <div class="card-body">
+          <h5 class="card-title">{{pet.name}}</h5>
+          <p class="card-text">{{pet.species}}</p>
+          <a href="/pet/{{pet.id}}" class="btn btn-secondary">Check me out!</a>
+        </div>
+      </div>
+      {% endif %} {% endfor %}
+    </div>
+    {% endblock %}
+  </body>
+</html>
