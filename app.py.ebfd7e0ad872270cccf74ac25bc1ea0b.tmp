@@ -1,0 +1,95 @@
+from flask import Flask, render_template, redirect
+from flask_debugtoolbar import DebugToolbarExtension
+from models import db, connect_db, Pet, SQLAlchemy
+from forms import PetForm
+
+app = Flask(__name__)
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///adopt'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SQLALCHEMY_ECHO'] = False
+app.config['SECRET_KEY'] = 'some_value'
+app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
+debug = DebugToolbarExtension(app)
+app.debug = True
+app.app_context().push()
+
+connect_db(app)
+
+
+@app.route('/')
+def show_pets():
+    """Shows list of all pets in the agency."""
+
+    pets = Pet.query.all()
+
+    return render_template('base.html', pets=pets)
+
+
+@app.route('/pet/<int:pet_id>')
+def show_pet_details(pet_id):
+    """Shows details about a specific pet"""
+
+    pet = Pet.query.get_or_404(pet_id)
+
+    return render_template('pet_details.html', pet=pet)
+
+
+@app.route('/pet/new', methods=["POST", "GET"])
+def add_new_pet():
+    """Shows form to add new pet and handles form submission"""
+
+    form = PetForm()
+
+    if form.validate_on_submit():
+        name = form.name.data
+        species = form.species.data
+        photo_url = form.photo_url.data
+        age = form.age.data
+        notes = form.notes.data
+        available = form.available.data
+
+        pet = Pet(name=name, species=species, photo_url=photo_url,
+                  age=age, notes=notes, available=available)
+
+        db.session.add(pet)
+        db.session.commit()
+
+        return redirect(f'/pet/{pet.id}')
+    else:
+        return render_template('add_new_pet.html', form=form)
+
+
+@app.route('/pet/<int:pet_id>/edit', methods=["POST", "GET"])
+def edit_pet(pet_id):
+    """Shows form to add new pet and handles form submission"""
+
+    pet = Pet.query.get_or_404(pet_id)
+    form = PetForm(obj=pet)
+
+    if form.validate_on_submit():
+        pet.name = form.name.data
+        pet.species = form.species.data
+        pet.photo_url = form.photo_url.data
+        pet.age = form.age.data
+        pet.notes = form.notes.data
+        pet.available = form.available.data
+
+        db.session.add(pet)
+        db.session.commit()
+
+        return redirect(f'/pet/{pet.id}')
+    else:
+        return render_template('edit_pet.html', form=form, pet=pet)
+
+
+@app.route('/pet/<int:pet_id>/delete', methods=["POST"])
+def delete_pet(pet_id):
+    """Shows form to add new pet and handles form submission"""
+
+    pet = Pet.query.get_or_404(pet_id)
+
+    db.session.delete(pet)
+    db.session.commit()
+
+    return redirect(f'/')
